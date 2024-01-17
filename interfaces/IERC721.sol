@@ -16,7 +16,7 @@ interface IERC721 is IERC165{
 
     function ownerOf(uint256 tokenId) external view returns(address owner);
 
-    function safeTranferFrom(address from, address to, uint256 tokenId, bytes calldata data) external;
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata data) external;
 
     function transferFrom(address from,address to, uint256 tokenId) external;
 

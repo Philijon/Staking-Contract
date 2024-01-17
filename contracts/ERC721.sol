@@ -76,6 +76,7 @@ contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
     }
 
     function setBaseURI(string memory baseURI_) public virtual onlyOwner(){
+        require(bytes(baseURI_).length>0,"invalid URI");
         _baseURI = baseURI_;
     }
 
@@ -84,17 +85,144 @@ contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
     }
 
     function approve(address to, uint256 tokenId) public virtual {
-        _approve(to,tokenId, _msgSender());
+        _approve(to,tokenId,_msgSender());
     }
 
+    function getApproved(uint256 tokenId) public view virtual returns(address){
+        _requireOwned(tokenId);
 
+        return _getApproved(tokenId);
+    }
 
+    function setApprovalForAll(address operator, bool approved) public virtual{
+        _setApprovalForAll(_msgSender(),operator,approved);
+    }
 
+    function isApprovedForAll(address owner, address operator) public view virtual returns(bool){
+        return _operatorApprovals[owner][operator];
+    }
 
+    function transferFrom(address from, address to,uint256 tokenId) public virtual{
+        if(to==address(0)){
+            revert("Invalid receiver");
+        }
 
+        address previousOwner = _update(to,tokenId,_msgSender());
+
+        if(previousOwner !=from){
+            revert("Incorrect Owner");
+        }
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId)public{
+        safeTranferFrom(from, to, tokenId, data);
+    }
+
+    function safeTransferFrom(address from, address to,uint256 tokenId,bytes memory data)public virtual {
+        transferFrom(from, to, tokenId);
+        _checkOnERC721Received(from,to,tokenId,data);
+    }
 
     function _ownerOf(uint256 tokenId) internal view virtual returns(address){
         return _owners[tokenId];
+    }
+
+    function _getApproved(uint256 tokenId) internal view virtual returns(address){
+        return _tokenApprovals[tokenId];
+    }
+
+    function _isAuthorized(address owner,address spender, uint256 tokenId) internal view virtual returns(bool){
+        return spender != address(0) &&
+        (owner == spender|| 
+        isApprovedForAll(owner, spender) ||
+        _getApproved(tokenId)== spender);
+    }
+
+    function _checkAuthorized(address owner, address spender,uint256 tokenId) internal view virtual{
+        if(!_isAuthorized(owner, spender, tokenId)){
+            if(owner == address(0)){
+                revert("Token does not exist");
+            }else{
+                revert("spender is not approved");
+            }
+        }
+    }
+
+    function _update(address to,uint256 tokenId,address authent) internal virtual returns(address){
+        address from = _ownerOf(tokenId);
+
+        if(authent != address(0)){
+            _checkAuthorized(from, authent, tokenId);
+        }
+
+        if(from != address(0)){
+            _approve(address(0),tokenId,address(0),false);
+            
+            unchecked{
+                _balances[from] -=1;
+            }
+        }
+
+        if(to != address(0)){
+            unchecked {
+                _balances[to] +=1;
+            }
+        }
+
+        _owners[tokenId] = to;
+
+        emit Transfer(from, to, tokenId);
+
+        return from;
+    }
+
+    function _mint(address to, uint256 tokenId) internal{
+        if(to == address(0)){
+            revert("Invalid receiver");
+        }
+
+        address previousOwner = _update(to,tokenId,address(0));
+        if(previousOwner != address(0)){
+            revert("Invalid Sender");
+        }
+    }
+
+    function _safeMint(address to, uint256 tokenId) internal {
+        _safeMint(to,tokenId,"");
+    }
+
+    function _safeMint(address to, uint256 tokenId, bytes memory data) internal virtual{
+        _mint(to,tokenId);
+        _checkOnERC721Recevied(address(0),to,tokenId,data);
+    }
+
+    function _burn(uint256 tokenId) internal{
+        address previousOwner = _update(address(0), tokenId, address(0));
+        if(previousOwner == address(0)){
+            revert("Token does not exist");
+        }
+    }
+
+    function _transfer(address from, address to, uint256 tokenId) internal{
+        if(to == address(0)){
+            revert("Invalid receiver");
+        }
+
+        address previousOwner = _update(to, tokenId, address(0));
+        if(previousOwner == address(0)){
+            revert("Token does not exist");
+        } else if(previousOwner != from){
+            revert("Invalid Token owner");
+        }
+    }
+
+    function _safeTransferFrom(address from, address to, uint256 tokenId)internal {
+        _safeTransferFrom(from,to,tokenId,"");
+    }
+
+    function _safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) internal virtual{
+        _transfer(from,to,tokenId);
+        _checkOnERC721Received(from,to,tokenId,data);
     }
 
 
