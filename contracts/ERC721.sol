@@ -83,6 +83,10 @@ contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
         return _baseURI;
     }
 
+    function approve(address to, uint256 tokenId) public virtual {
+        _approve(to,tokenId, _msgSender());
+    }
+
 
 
 
