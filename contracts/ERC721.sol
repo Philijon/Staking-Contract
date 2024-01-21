@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity^0.8.10;
+pragma solidity^0.8.13;
 
 import {IERC721} from "../interfaces/IERC721.sol";
 
@@ -18,7 +18,7 @@ import {Strings} from "../libraries/Strings.sol";
 
 import {Ownable} from "./Ownable.sol";
 
-contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
+contract ERC721 is Context, Ownable, ERC165, IERC721, IERC721Metadata{
 
     using Strings for uint256;
 
@@ -28,13 +28,13 @@ contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
 
     string private _baseURI = "";
 
-    mapping(uint256 tokenId=>address) private _owners;
+    mapping(uint256 =>address) private _owners;
 
-    mapping(address owner =>uint256) private _balances;
+    mapping(address =>uint256) private _balances;
 
-    mapping(uint256 tokenId=>address) private _tokenApprovals;
+    mapping(uint256 =>address) private _tokenApprovals;
 
-    mapping(address owner=> mapping(address operator=>bool)) private _operatorApprovals;
+    mapping(address => mapping(address =>bool)) private _operatorApprovals;
     
     constructor(string memory name_, string memory symbol_){
         _name = name_;
@@ -46,7 +46,7 @@ contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165,IERC165) returns(bool){
-        return  supportsInterface(interfaceId);
+        return  _supportedInterfaces[interfaceId];
     }
 
     function balanceOf(address owner) public view virtual returns(uint256){
@@ -73,6 +73,7 @@ contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
         _requireOwned(tokenId);
         string memory baseURI = _getBaseURI();
         return bytes(baseURI).length > 0 ? string.concat(baseURI,tokenId.toString()) : "";
+        
     }
 
     function setBaseURI(string memory baseURI_) public virtual onlyOwner(){
@@ -115,7 +116,7 @@ contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
     }
 
     function safeTransferFrom(address from, address to, uint256 tokenId)public{
-        safeTranferFrom(from, to, tokenId, data);
+        safeTransferFrom(from, to, tokenId, "");
     }
 
     function safeTransferFrom(address from, address to,uint256 tokenId,bytes memory data)public virtual {
@@ -176,6 +177,14 @@ contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
         return from;
     }
 
+    function mint(address to,uint256 tokenId,bytes memory data) public onlyOwner(){
+        _safeMint(to,tokenId,data);
+    }
+
+    function burn(uint256 tokenId) public virtual{
+        _update(address(0),tokenId, _msgSender());
+    }
+
     function _mint(address to, uint256 tokenId) internal{
         if(to == address(0)){
             revert("Invalid receiver");
@@ -191,9 +200,9 @@ contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
         _safeMint(to,tokenId,"");
     }
 
-    function _safeMint(address to, uint256 tokenId, bytes memory data) internal virtual{
+    function _safeMint(address to, uint256 tokenId, bytes memory data)  internal virtual{
         _mint(to,tokenId);
-        _checkOnERC721Recevied(address(0),to,tokenId,data);
+        _checkOnERC721Received(address(0),to,tokenId,data);
     }
 
     function _burn(uint256 tokenId) internal{
@@ -225,12 +234,32 @@ contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
         _checkOnERC721Received(from,to,tokenId,data);
     }
 
+    function _approve(address to, uint256 tokenId,address authent) internal{
+        _approve(to,tokenId,authent,true);
+    }
 
+    function _approve(address to, uint256 tokenId,address authent, bool emitEvent) internal virtual{
+        if(emitEvent || authent != address(0)){
+            address owner = _requireOwned(tokenId);
 
+            if(authent != address(0) && owner != authent && !isApprovedForAll(owner, authent)){
+                revert("Invalid Approver");
+            }
 
+            if(emitEvent){
+                emit Approval(owner, to, tokenId);
+            }
+        }
+        _tokenApprovals[tokenId] = to;
+    }
 
-
-
+    function _setApprovalForAll(address owner, address operator, bool approved) internal virtual {
+        if(operator == address(0)){
+            revert("Invalid Operator");
+        }
+        _operatorApprovals[owner][operator] = approved;
+        emit ApprovalForAll(owner,operator,approved);
+    }
 
     function _requireOwned(uint256 tokenId) internal view returns(address){
         address owner = _ownerOf(tokenId);
@@ -239,6 +268,24 @@ contract ERC721 is Context,Ownable,ERC165,IERC721,IERC721Metadata{
         }
 
         return owner;
+    }
+
+    function _checkOnERC721Received(address from, address to, uint256 tokenId, bytes memory data) private{
+        if(to.code.length > 0){ // ==> contract
+            try IERC721Receiver(to).onERC721Received(_msgSender() , from, tokenId, data) returns(bytes4 returnvalue){
+                if(returnvalue != IERC721Receiver.onERC721Received.selector){
+                    revert("Invalid Receiver");
+                }
+            }catch (bytes memory reason){
+                if(reason.length == 0){
+                    revert("Invalid Receiver");
+                } else {
+                    assembly{
+                        revert(add(32,reason),mload(reason))
+                    }
+                }
+            }
+        } 
     }
 
 

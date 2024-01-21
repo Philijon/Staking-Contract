@@ -2,7 +2,7 @@
 
 
 
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.13;
 
 /**
  * @dev Standard math utilities missing in the Solidity language.

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity^0.8.10;
+pragma solidity^0.8.13;
 
 import {IERC165} from "./IERC165.sol";
 
@@ -10,11 +10,13 @@ interface IERC721 is IERC165{
 
     event Approval(address indexed owner, address indexed approved, uint indexed tokenId);
 
-    event AprrovalForAll(address indexed owner, address indexed operator, bool approved);
+    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
 
-    function balanceOf()external view returns(uint balance);
+    function balanceOf(address owner)external view returns(uint balance);
 
     function ownerOf(uint256 tokenId) external view returns(address owner);
+
+    function safeTransferFrom(address from, address to, uint256 tokenId) external;
 
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata data) external;
 
