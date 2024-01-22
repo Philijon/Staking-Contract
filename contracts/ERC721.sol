@@ -182,7 +182,7 @@ contract ERC721 is Context, Ownable, ERC165, IERC721, IERC721Metadata{
     }
 
     function burn(uint256 tokenId) public virtual{
-        _update(address(0),tokenId, _msgSender());
+        _update(address(0), tokenId, _msgSender());
     }
 
     function _mint(address to, uint256 tokenId) internal{
@@ -206,7 +206,7 @@ contract ERC721 is Context, Ownable, ERC165, IERC721, IERC721Metadata{
     }
 
     function _burn(uint256 tokenId) internal{
-        address previousOwner = _update(address(0), tokenId, address(0));
+        address previousOwner = _update(address(0), tokenId, _msgSender());
         if(previousOwner == address(0)){
             revert("Token does not exist");
         }

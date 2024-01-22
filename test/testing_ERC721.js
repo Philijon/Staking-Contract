@@ -46,6 +46,8 @@ it("should get the NFT name and symbol",async()=>{
     assert(name === "MyNFT" && symbol === "MNFT");
 })
 
+// mint function
+
 it("should use the mint function to mint 3 nfts to the first address",async()=>{
 
     try{
@@ -55,4 +57,154 @@ it("should use the mint function to mint 3 nfts to the first address",async()=>{
     }catch(error){
         console.log(error);
     }
+})
+
+it("should fail when a nonOwner tries to mint an NFT",async()=>{
+    try{
+        await NFT.mint(address1,4,"0x00",{from: address2});
+    }catch(error){
+        assert(error.message.includes("Only owner can execute this function"));
+        return;
+    }
+
+    assert(false)
+});
+
+it("should fail when one tries to mint an already existing NFT",async()=>{
+    try{
+        await NFT.mint(address1,2,"0x00",{from: address1});
+    }catch(error){
+        assert(error.message.includes("Invalid Sender"));
+        return;
+    }
+
+    assert(false);
+})
+
+it("will burn nft 1,verify it does no longer exist, then mint it again",async()=>{
+
+    
+    try{
+        await NFT.burn(1,{from: address1});
+    }catch(error){
+        console.log(error)
+    }
+
+    try{
+        await NFT.ownerOf(1);
+    }catch(error){
+        assert(error.message.includes("Token does not exist"))
+    }
+
+
+    try{
+        await NFT.mint(address1,1,"0x00",{from: address1});
+    }catch(error){
+        console.log(error);
+    }
+
+    let owner;
+
+    try{
+        owner = await NFT.ownerOf(1);
+    }catch(error){
+        console.log(error);
+    }
+
+    assert(owner == address1);
+
+    
+})
+
+it("testing the balanceOf and the ownerOf function",async()=>{
+    let balance;
+    try{
+        balance = await NFT.balanceOf(address1);
+    }catch(error){
+        console.log(error);
+    }
+
+    let owner;
+    try{
+        owner =await NFT.ownerOf(2);
+    }catch(error){
+        console.log(error);
+    }
+
+    assert(balance == 3);
+    assert(owner == address1);
+})
+
+// getting and setting the URI
+
+it("should test the tokenURI function, which should return an empty string as baseURI is not yet set",async()=>{
+
+    let response = "lirum larum";
+    try{
+        response =await NFT.tokenURI(2);
+        
+    }catch(error){
+        console.log(error);
+    }
+
+    assert(response == "");
+})
+
+it("should set the baseURI, then once again try the tokenURI function",async()=>{
+    try{
+        await NFT.setBaseURI("test_test_test",{from: address1});
+    }catch(error){
+        console.log(error);
+    }
+
+    let response;
+    try{
+        response = await NFT.tokenURI(3);
+    }catch(error){
+        console.log(error);
+    }
+
+    assert(response == "test_test_test3")
+})
+
+it("should try the setBaseURI function once again, this time with invalid baseURI, thus it should throw",async()=>{
+    try{
+        await NFT.setBaseURI("");
+    }catch(error){
+        assert(error.message.includes("invalid URI"));
+        return;
+    }
+
+    assert(false);
+})
+
+it("should try setBaseURI from a non-Owner, should fail",async()=>{
+
+    try{
+        await NFT.setBaseURI("theRedFox",{from: address2});
+    }catch(error){
+        assert(error.message.includes("Only owner can execute this function"));
+        return;
+    }  
+
+    assert(false);
+})
+
+// approve function
+
+it("tries to approve the frist NFT from address1 to address 3, then check the tokenApprovals",async()=>{
+    try{
+        await NFT.approve(address3,2,{from: address1});
+    }catch(error){
+        console.log(error);
+    }
+
+    let approved;
+    try{
+        approved = await NFT.getApproved(2);
+    }catch(error){
+        console.log(error);
+    }
+
+    assert(approved==address3);
 })
