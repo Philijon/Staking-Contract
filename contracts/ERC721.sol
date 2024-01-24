@@ -8,6 +8,8 @@ import {IERC721Receiver} from "../interfaces/IERC721Receiver.sol";
 
 import {IERC721Metadata} from "../interfaces/IERC721Metadata.sol";
 
+import {IERC721Enumerable} from "../interfaces/IERC721Enumerable.sol";
+
 import {Context} from "./Context.sol";
 
 import {ERC165} from "./ERC165.sol";
@@ -18,7 +20,7 @@ import {Strings} from "../libraries/Strings.sol";
 
 import {Ownable} from "./Ownable.sol";
 
-contract ERC721 is Context, Ownable, ERC165, IERC721, IERC721Metadata{
+contract ERC721 is Context, Ownable, ERC165, IERC721, IERC721Enumerable, IERC721Metadata{
 
     using Strings for uint256;
 
@@ -42,6 +44,7 @@ contract ERC721 is Context, Ownable, ERC165, IERC721, IERC721Metadata{
         _owner = _msgSender();
         _registerInterface(type(IERC165).interfaceId);
         _registerInterface(type(IERC721).interfaceId);
+        _registerInterface(type(IERC721Enumerable).interfaceId);
         _registerInterface(type(IERC721Metadata).interfaceId);
     }
 
