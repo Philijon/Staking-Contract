@@ -37,10 +37,12 @@ contract ERC20 is Context,Ownable,ERC165,IERC20,IERC20Metadata,IERC20Errors{
         _owner = _msgSender();
         _name = name_;
         _symbol= symbol_;
-        _registerInterface(type(IERC165).interfaceId);
-        _registerInterface(type(IERC20).interfaceId);
-        _registerInterface(type(IERC20Metadata).interfaceId);
-        _registerInterface(type(IERC20Errors).interfaceId);
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165) returns(bool){
+        return  interfaceId == type(IERC20).interfaceId ||
+                interfaceId == type(IERC20Metadata).interfaceId ||
+                super.supportsInterface(interfaceId);
     }
 
     function name() public view virtual returns(string memory){
