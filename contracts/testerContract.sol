@@ -17,6 +17,8 @@ import {IERC20Errors} from "../Interfaces/IERC20Errors.sol";
 
 import {IERC20Metadata} from "../Interfaces/IERC20Metadata.sol";
 
+import {IERC721Enumerable} from "../Interfaces/IERC721Enumerable.sol";
+
 
 contract testerContract{
 
@@ -28,5 +30,9 @@ contract testerContract{
 
     function getInterface721() public pure returns(bytes4){
         return type(IERC721).interfaceId;
+    }
+
+    function getIERC721Enumerable() public pure returns(bytes4){
+        return type(IERC721Enumerable).interfaceId;
     }
 }
