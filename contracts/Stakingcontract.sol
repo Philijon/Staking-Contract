@@ -36,6 +36,14 @@ contract stakingContract is Context,ERC20,IERC721Receiver{
         return this.onERC721Received.selector;
     }
 
+    function stakedAmount(address staker) public view returns(uint256){
+        return _stakedAmount[staker];
+    }
+
+    function tokenStakedBy(uint256 tokenId) public view returns(address){
+        return _tokenStakedBy[tokenId];
+    }
+
     function stake(uint256 tokenId) public {
 
         address owner = nftContract.ownerOf(tokenId);
@@ -70,7 +78,7 @@ contract stakingContract is Context,ERC20,IERC721Receiver{
     }
 
     function claim(address receiver) public {
-        require(_stakedAmount[receiver] > 0,"Claimer has no NFT staked");
+        require(_stakedAmount[receiver] > 0,"Claimer address has no NFT staked");
 
         uint256 timeStaked = block.timestamp - _stakedFromTimeStamp[receiver];
         uint256 reward = timeStaked * _rewardRate;

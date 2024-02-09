@@ -5,31 +5,33 @@ const ERC721Enumerable = artifacts.require("ERC721Enumerable");
 const testerContract = artifacts.require("testerContract");
 
 
-// let address1 = "0x64b7FFC15Fa8EC85d2b56835516CcA3895505067";
-// let address2 = "0xDC2E35bdf7372eDdd82C51AC77d0C4FdF8081e5b";
-// let address3 = "0xfD9faAd8af18ff0ebA111B8897c069d2f9479180";
-// let address4 = "0xC8E5A47f2b716616883598365d194D1623c48B5b";
-// let address5 = "0x932e5B1C4649245362f4E7c7Cc0d3cA110f95B5D";
-// let address6 = "0x9696E20A1D0196C725C724120f3e5A5f023b8260";
-// let address7 = "0x0a10861679DAeEa0b5FcfA8427f24eC914284d10";
-// let address8 = "0x74De322E95c23ACb62307B8c75f29da19F345214";
-// let address9 = "0xb4A02864A42aEaA9C287259b18555306295B7faF";
-// let address10 = "0xeC0E3c00028849ECCeAD4855581ccAF257CA7e0F";
+let address1 = "0x64b7FFC15Fa8EC85d2b56835516CcA3895505067";
+let address2 = "0xDC2E35bdf7372eDdd82C51AC77d0C4FdF8081e5b";
+let address3 = "0xfD9faAd8af18ff0ebA111B8897c069d2f9479180";
+let address4 = "0xC8E5A47f2b716616883598365d194D1623c48B5b";
+let address5 = "0x932e5B1C4649245362f4E7c7Cc0d3cA110f95B5D";
+let address6 = "0x9696E20A1D0196C725C724120f3e5A5f023b8260";
+let address7 = "0x0a10861679DAeEa0b5FcfA8427f24eC914284d10";
+let address8 = "0x74De322E95c23ACb62307B8c75f29da19F345214";
+let address9 = "0xb4A02864A42aEaA9C287259b18555306295B7faF";
+let address10 = "0xeC0E3c00028849ECCeAD4855581ccAF257CA7e0F";
 
-let address1 = "0x5ac5F3361D782DB973c9c65dF716D38307a755e2";
-let address2 = "0x58fBFbB09aA6f5f187dfCe903F9C8AB8AFbEC030";
-let address3 = "0x620F84B4a2d90c1c7fe9Ed6CC01F01427eE6a294";
-let address4 = "0xfa00fB886DaaE3230FEcE4bCC4C24008F6438fD0";
-let address5 = "0x89D23CFA2A3123F489DC896f62C5130CfdF504Fe";
-let address6 = "0x453DF75F581e621446b8c110819fA053C6A656d2";
-let address7 = "0x525Dc7C17655Fd080969dD040cb6B79764FF3403";
-let address8 = "0xDE6547B6fA7a5849B0Bd698393C154191211E275";
-let address9 = "0xEBb061067C47605EaCDA624BF2E6c48010937E48";
-let address10 = "0x29f33A3D42Fa43F6563aa98875b95789a6086D4d";
+
+
+// let address1 = "0x5ac5F3361D782DB973c9c65dF716D38307a755e2";
+// let address2 = "0x58fBFbB09aA6f5f187dfCe903F9C8AB8AFbEC030";
+// let address3 = "0x620F84B4a2d90c1c7fe9Ed6CC01F01427eE6a294";
+// let address4 = "0xfa00fB886DaaE3230FEcE4bCC4C24008F6438fD0";
+// let address5 = "0x89D23CFA2A3123F489DC896f62C5130CfdF504Fe";
+// let address6 = "0x453DF75F581e621446b8c110819fA053C6A656d2";
+// let address7 = "0x525Dc7C17655Fd080969dD040cb6B79764FF3403";
+// let address8 = "0xDE6547B6fA7a5849B0Bd698393C154191211E275";
+// let address9 = "0xEBb061067C47605EaCDA624BF2E6c48010937E48";
+// let address10 = "0x29f33A3D42Fa43F6563aa98875b95789a6086D4d";
 
 before(async()=>{
-    NFT = await ERC721Enumerable.deployed();
-    Staker = await stakingContract.deployed();
+     NFT = await ERC721Enumerable.deployed();
+     Staker = await stakingContract.deployed();
 });
 
 it("should return the addresses of both deployed contracts",async()=>{
