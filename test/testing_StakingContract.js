@@ -183,6 +183,30 @@ contract("Stakercontract",async()=>{
         assert(false);
     })
 
+    it("should fail when one tries to unstake a not staked NFT",async()=>{
+        try{
+            await StakerContract.unstake(7);
+        }catch(error){
+            assert(error.message.includes("only Staker can unstake NFT"));
+            return;
+        }
+        assert(false);
+    })
+
+    it("should unstake the 2nd NFT, thus returning it to address1",async()=>{
+        try{
+            await StakerContract.unstake(2,{from:address1});
+        }catch(error){
+            console.log(error)
+        }
+
+        let owner = await NFT.ownerOf(2);
+        assert(owner == address1);
+
+        let newBalance = await StakerContract.balanceOf(address1);
+        console.log(`Current balance of address1: ${newBalance.words[0]}`);
+    })
+
 })
 
 
