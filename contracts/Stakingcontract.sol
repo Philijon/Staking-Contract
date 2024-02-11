@@ -12,7 +12,9 @@ import {IERC721Receiver} from "../interfaces/IERC721Receiver.sol";
 
 import {Context} from "./Context.sol";
 
-contract stakingContract is Context,ERC20,IERC721Receiver{
+import{Ownable} from "./Ownable.sol";
+
+contract stakingContract is Context,Ownable,ERC20,IERC721Receiver{
 
     IERC721 public immutable nftContract;
 
@@ -42,6 +44,26 @@ contract stakingContract is Context,ERC20,IERC721Receiver{
 
     function tokenStakedBy(uint256 tokenId) public view returns(address){
         return _tokenStakedBy[tokenId];
+    }
+
+    function stakedtime(address staker) public view returns(uint256){
+        return _stakedFromTimeStamp[staker]-block.timestamp;
+    }
+
+    function unclaimedRewards(address staker) public view returns(uint256){
+        require(_stakedAmount[staker]>0,"Address has no tokens staked");
+        uint256 timeStaked = block.timestamp - _stakedFromTimeStamp[staker];
+        uint256 reward = timeStaked * _rewardRate *_stakedAmount[staker];
+        return reward;
+    }
+
+    function getRewardRate()public view returns(uint256){
+        return _rewardRate;
+    }
+
+    function setRewardRate(uint256 newRate) public onlyOwner(){
+        require(newRate >0,"Rewardrate to low");
+        _rewardRate=newRate;
     }
 
     function stake(uint256 tokenId) public {
@@ -79,9 +101,10 @@ contract stakingContract is Context,ERC20,IERC721Receiver{
 
     function claim(address receiver) public {
         require(_stakedAmount[receiver] > 0,"Claimer address has no NFT staked");
+        require(_msgSender()==receiver || _msgSender() == _owner,"only owner of NFT can claim his rewards");
 
         uint256 timeStaked = block.timestamp - _stakedFromTimeStamp[receiver];
-        uint256 reward = timeStaked * _rewardRate;
+        uint256 reward = timeStaked * _rewardRate * _stakedAmount[receiver];
 
         mint(receiver,reward);
 
