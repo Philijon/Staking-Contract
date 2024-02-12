@@ -110,9 +110,7 @@ contract ERC20 is Context,Ownable,ERC165,IERC20,IERC20Metadata,IERC20Errors{
     }
 
     function _update(address from, address to,uint256 value) internal virtual{
-        // if(to.isContract()){
-
-        // }
+        
         if (from == address(0)){ 
             uint256 _before = _totalSupply;
             _totalSupply += value;

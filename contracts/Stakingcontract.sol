@@ -35,7 +35,7 @@ contract stakingContract is Context,Ownable,ERC20,IERC721Receiver{
 
     // keeps track of the timestamp since last rewardclaim, necessary to calculate the unclaimed reward of an Address
     // will be updated to block.timestamp every time an address stakes or unstakes an NFT, or claims its rewards
-    mapping (address=>uint256256) private _stakedFromTimeStamp;
+    mapping (address=>uint256) private _stakedFromTimeStamp;
 
 
     constructor(address NFTcontract_, string memory tokenName,string memory tokenSymbol,uint256 rewardRate_) ERC20(tokenName,tokenSymbol){
@@ -65,7 +65,6 @@ contract stakingContract is Context,Ownable,ERC20,IERC721Receiver{
     // getter function for the _stakedFromTimeStamp mapping, which returns the difference between
     // the block.timestamp of the last time an address has staked,unstaked or claimed, and the current block.timestamp
     function stakedtime(address staker) public view returns(uint256){
-        return block.timestamp - _stakedFromTimeStamp[staker];
         return block.timestamp - _stakedFromTimeStamp[staker];
     }
 

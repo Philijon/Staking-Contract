@@ -20,6 +20,11 @@ import {IERC20Metadata} from "../Interfaces/IERC20Metadata.sol";
 import {IERC721Enumerable} from "../Interfaces/IERC721Enumerable.sol";
 
 
+// ---------------------------------------------------------------------
+// This contracts only purpose is to provide returned values for tests
+// ---------------------------------------------------------------------
+
+
 contract testerContract{
 
     function testIERC165 (address xyz,bytes4 InterfaceId) public view returns(bool){

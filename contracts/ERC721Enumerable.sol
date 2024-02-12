@@ -1,5 +1,7 @@
 //SPDX-License-Identifier: MIT
 
+// OpenZeppelin Contracts (last updated v5.0.0) (token/ERC721/extensions/ERC721Enumerable.sol)
+
 pragma solidity^0.8.13;
 
 import {IERC721Enumerable} from "../interfaces/IERC721Enumerable.sol";
@@ -7,6 +9,14 @@ import {IERC721Enumerable} from "../interfaces/IERC721Enumerable.sol";
 import {ERC721} from "./ERC721.sol";
 
 import {IERC165} from "../interfaces/IERC165.sol";
+
+/**
+ * @dev This implements an optional extension of {ERC721} defined in the ERC that adds enumerability
+ * of all the token ids in the contract as well as all token ids owned by each account.
+ *
+ * CAUTION: {ERC721} extensions that implement custom `balanceOf` logic, such as {ERC721Consecutive},
+ * interfere with enumerability and should not be used together with {ERC721Enumerable}.
+ */
 
 contract ERC721Enumerable is ERC721, IERC721Enumerable {
     mapping(address => mapping(uint256 => uint256)) private _ownedTokens;

@@ -1,5 +1,7 @@
 //SPDX-License-Identifier: MIT
 
+// OpenZeppelin Contracts (last updated v5.0.0) (token/ERC721/ERC721.sol)
+
 pragma solidity^0.8.13;
 
 import {IERC721} from "../interfaces/IERC721.sol";
@@ -19,6 +21,12 @@ import {Strings} from "../libraries/Strings.sol";
 import {Ownable} from "./Ownable.sol";
 
 import {IERC721Errors} from "../interfaces/IERC721Errors.sol";
+
+/**
+ * @dev Implementation of https://eips.ethereum.org/EIPS/eip-721[ERC-721] Non-Fungible Token Standard, including
+ * the Metadata extension, but not including the Enumerable extension, which is available separately as
+ * {ERC721Enumerable}.
+ */
 
 contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Errors,Ownable {
     using Strings for uint256;
