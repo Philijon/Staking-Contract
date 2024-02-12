@@ -24,7 +24,7 @@ contract stakingContract is Context,Ownable,ERC20,IERC721Receiver{
 
     mapping (uint256 => address) private _tokenStakedBy;
 
-    mapping (address=>uint) private _stakedFromTimeStamp;
+    mapping (address=>uint256) private _stakedFromTimeStamp;
 
 
     constructor(address NFTcontract_, string memory tokenName,string memory tokenSymbol,uint256 rewardRate_) ERC20(tokenName,tokenSymbol){
@@ -47,13 +47,13 @@ contract stakingContract is Context,Ownable,ERC20,IERC721Receiver{
     }
 
     function stakedtime(address staker) public view returns(uint256){
-        return _stakedFromTimeStamp[staker]-block.timestamp;
+        return block.timestamp - _stakedFromTimeStamp[staker];
     }
 
     function unclaimedRewards(address staker) public view returns(uint256){
         require(_stakedAmount[staker]>0,"Address has no tokens staked");
         uint256 timeStaked = block.timestamp - _stakedFromTimeStamp[staker];
-        uint256 reward = timeStaked * _rewardRate *_stakedAmount[staker];
+        uint256 reward = timeStaked * _rewardRate * _stakedAmount[staker];
         return reward;
     }
 
