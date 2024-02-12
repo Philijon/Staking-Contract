@@ -1,9 +1,14 @@
-const stakingContract = artifacts.require("stakingContract");
+// This file will use ganache / truffle / mocha / chai to perform unit tests on the ERC721Enumerable contract
+// with the help of the testerContract, which is written only for that case
 
+// import necessary artifacts 
 const ERC721Enumerable = artifacts.require("ERC721Enumerable");
 
 const testerContract = artifacts.require("testerContract");
 
+
+
+// adjust these addresses to the by ganache provided ones
 
 // let address1 = "0x64b7FFC15Fa8EC85d2b56835516CcA3895505067";
 // let address2 = "0xDC2E35bdf7372eDdd82C51AC77d0C4FdF8081e5b";
@@ -32,45 +37,68 @@ let address10 = "0x29f33A3D42Fa43F6563aa98875b95789a6086D4d";
 
 contract("ERC721Enumerable",async()=>{
 
+    
     let NFT;
-    let Staker;
 
     before(async()=>{
+        // initializing the NFT with a deployed instance of the NFT contract with constructor arguments as provided in "migrations\5_migrate_Stakingcontract.js"
         NFT = await ERC721Enumerable.deployed();
-        Staker = await stakingContract.deployed();
     });
 
-    it("should return the addresses of both deployed contracts",async()=>{
-        let nftaddress = await NFT.address;
-        let stakeraddress = await Staker.address;
 
-        assert(stakeraddress != "" && nftaddress != "");
+    // checking the nft contract address, which should have a length of 40 + 2 ("0x" prefix)
+    it("should return the addresses of the deployed ERC721Enumerable contract",async()=>{
+
+        let nftaddress = await NFT.address;
+
+        assert.lengthOf(nftaddress, 42, "Contract not succesfully deployed");
+        
     })
 
-    //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx testing the NFT-contract xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     it("will test the supportsInterface functionality of the ERC721",async()=>{
         
+        // assigning an instance of the deployed testerContract
         let tester = await testerContract.deployed();
+
+        // testerContract function which returns the type(IERC721).interfaceId
         let id = await tester.getInterface721();
+
+        // testercontract function which calls a contractaddress and checks for IERC165 supported Interfaces, takes two arguments:
+        // an address to call
+        // the interfaceId, to check whever its supported
         let retval = await tester.testIERC165(NFT.address,id)
+
+        // testerContract function which returns the type(IERC721Enumerable).interfaceId
         let idENumerable = await tester.getIERC721Enumerable();
+
+        // testercontract function which calls a contractaddress and checks for IERC165 supported Interfaces, takes two arguments:
+        // an address to call
+        // the interfaceId, to check whever its supported
         let retval2 = await tester.testIERC165(NFT.address,idENumerable);
 
-        assert(retval === true);
-        assert(retval2 == true);
+        assert.equal(retval, true, "NFTcontract returned false for IERC721 supported");
+        assert.equal(retval2, true, "NFTcontract returned false for IERC721Enumerable supported");
     })
 
     it("should get the NFT name and symbol",async()=>{
+
+        // uses the name() and symbol() getter functions of the NFT contract to return its name and symbol
+        // expected return values have to be adjusted if constructor arguments in the migration files are modified
         let name =await NFT.name();
         let symbol = await NFT.symbol();
 
-        assert(name === "MyNFT" && symbol === "MNFT");
+        assert.equal(name, "MyNFT", "NFT returned wrong Name, check constructor arguments");
+        assert.equal(symbol,"MNFT","NFT returned wrong symbol, check constructor arguments")
+
+        
     })
 
-    // mint function
+    // testing the mint() function by minting 10 nfts
+    // mint function has restricted acces onlyOwner() which is the address that created the contract, in this case address 1
+    // address 1 is used by default to execute contract calls, so its unnecessary to specify which address mints these NFTs
 
-    it("should use the mint function to mint 5 nfts to the first address",async()=>{
+    it("should use the mint function to mint 10 nfts to the first address",async()=>{
 
         try{
             await NFT.mint(address1,1);
@@ -87,31 +115,44 @@ contract("ERC721Enumerable",async()=>{
             console.log(error);
         }
     })
+    
 
+    // testing the restricted access for the mint() function by calling it from a non-owner address, thus it should throw
+    // if ownership has been transfered to address2, calling address needs to be adjusted, otherwise the transaction wont be reverted
     it("should fail when a nonOwner tries to mint an NFT",async()=>{
         try{
-            await NFT.mint(address1,4,{from: address2});
+
+            // calling the mint() fcuntion from address2 (not the owner)
+            await NFT.mint(address1,11,{from: address2});
         }catch(error){
-            
+
+            // asserting an error occured, and the error message includes the restricted access revert reason, then returning
+            assert.include(error.message, "Only owner can execute this function", "transaction did not get reverted, check who is the current owner address");
             return;
         }
 
+        // asserting false, this code should not get reached unless the transaction did not revert, thus failing the unit test
         assert(false)
     });
 
+
+    // trying to mint an already existing NFT (tokenId 2 already exists) as the owner (currently address1),
+    // ERC721 checks that the NFT is currently not owned (previousOwner == address(0)), otherwise revert,
+    // since tokenId 2 is currently held by address 1, it should throw
     it("should fail when one tries to mint an already existing NFT",async()=>{
 
 
         try{
+            // trying to mint tokenId 2 as address1, which has owner access
             await NFT.mint(address1,2,{from: address1});
         }catch(error){
-            
+            // asserting the transaction reverted, with the ERC721InvalidSender costum error,
+            // which has no revert reason implemented, so the error message should only include "custom error", then returning
+            assert.include(error.message, "Custom error", "transaction did not throw, check the NFT already existed");
             return;
         }
-
+        // asserting false, this code should not get reached unless the transaction did not revert, thus failing the unit test
         assert(false);
-
-
     })
 
     it("will burn nft 1,verify it does no longer exist, then mint it again",async()=>{
