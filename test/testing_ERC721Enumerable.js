@@ -10,29 +10,29 @@ const testerContract = artifacts.require("testerContract");
 
 // adjust these addresses to the by ganache provided ones
 
-let address1 = "0x64b7FFC15Fa8EC85d2b56835516CcA3895505067";
-let address2 = "0xDC2E35bdf7372eDdd82C51AC77d0C4FdF8081e5b";
-let address3 = "0xfD9faAd8af18ff0ebA111B8897c069d2f9479180";
-let address4 = "0xC8E5A47f2b716616883598365d194D1623c48B5b";
-let address5 = "0x932e5B1C4649245362f4E7c7Cc0d3cA110f95B5D";
-let address6 = "0x9696E20A1D0196C725C724120f3e5A5f023b8260";
-let address7 = "0x0a10861679DAeEa0b5FcfA8427f24eC914284d10";
-let address8 = "0x74De322E95c23ACb62307B8c75f29da19F345214";
-let address9 = "0xb4A02864A42aEaA9C287259b18555306295B7faF";
-let address10 = "0xeC0E3c00028849ECCeAD4855581ccAF257CA7e0F";
+// let address1 = "0x64b7FFC15Fa8EC85d2b56835516CcA3895505067";
+// let address2 = "0xDC2E35bdf7372eDdd82C51AC77d0C4FdF8081e5b";
+// let address3 = "0xfD9faAd8af18ff0ebA111B8897c069d2f9479180";
+// let address4 = "0xC8E5A47f2b716616883598365d194D1623c48B5b";
+// let address5 = "0x932e5B1C4649245362f4E7c7Cc0d3cA110f95B5D";
+// let address6 = "0x9696E20A1D0196C725C724120f3e5A5f023b8260";
+// let address7 = "0x0a10861679DAeEa0b5FcfA8427f24eC914284d10";
+// let address8 = "0x74De322E95c23ACb62307B8c75f29da19F345214";
+// let address9 = "0xb4A02864A42aEaA9C287259b18555306295B7faF";
+// let address10 = "0xeC0E3c00028849ECCeAD4855581ccAF257CA7e0F";
 
 
 
-// let address1 = "0x5ac5F3361D782DB973c9c65dF716D38307a755e2";
-// let address2 = "0x58fBFbB09aA6f5f187dfCe903F9C8AB8AFbEC030";
-// let address3 = "0x620F84B4a2d90c1c7fe9Ed6CC01F01427eE6a294";
-// let address4 = "0xfa00fB886DaaE3230FEcE4bCC4C24008F6438fD0";
-// let address5 = "0x89D23CFA2A3123F489DC896f62C5130CfdF504Fe";
-// let address6 = "0x453DF75F581e621446b8c110819fA053C6A656d2";
-// let address7 = "0x525Dc7C17655Fd080969dD040cb6B79764FF3403";
-// let address8 = "0xDE6547B6fA7a5849B0Bd698393C154191211E275";
-// let address9 = "0xEBb061067C47605EaCDA624BF2E6c48010937E48";
-// let address10 = "0x29f33A3D42Fa43F6563aa98875b95789a6086D4d";
+let address1 = "0x5ac5F3361D782DB973c9c65dF716D38307a755e2";
+let address2 = "0x58fBFbB09aA6f5f187dfCe903F9C8AB8AFbEC030";
+let address3 = "0x620F84B4a2d90c1c7fe9Ed6CC01F01427eE6a294";
+let address4 = "0xfa00fB886DaaE3230FEcE4bCC4C24008F6438fD0";
+let address5 = "0x89D23CFA2A3123F489DC896f62C5130CfdF504Fe";
+let address6 = "0x453DF75F581e621446b8c110819fA053C6A656d2";
+let address7 = "0x525Dc7C17655Fd080969dD040cb6B79764FF3403";
+let address8 = "0xDE6547B6fA7a5849B0Bd698393C154191211E275";
+let address9 = "0xEBb061067C47605EaCDA624BF2E6c48010937E48";
+let address10 = "0x29f33A3D42Fa43F6563aa98875b95789a6086D4d";
 
 
 contract("ERC721Enumerable",async()=>{
@@ -192,7 +192,7 @@ contract("ERC721Enumerable",async()=>{
         }catch(error){
             console.log(error);
         }
-        // asserting the returned address for the owner of tokenId1 is equal to address 1
+        // asserting the returned address for the owner of tokenId1 is equal to address1
         assert.equal(owner, address1,"Owner of tokenId 1 is not address 1, make sure it actually minted tokenId 1");
         
     })
@@ -331,38 +331,62 @@ contract("ERC721Enumerable",async()=>{
         assert(false);
     })
 
-    // approve/transferFrom function
+    // testing the approve() and getApproved() function to give approval to address3 to spend NFT tokenId 2, which currently belongs to address1
+    // then verying address 3 is approved to spend tokenId 2
 
     it("tries to approve the frist NFT from address1 to address 3, then check the tokenApprovals",async()=>{
+        
         try{
-            await NFT.approve(address3,2,{from: address1});
+
+            // using the approve() function to approve address3 to spend tokenId1. 
+            // currently held by address1, so it has to be the msgSender for the transaction to succed,
+            // thus specification of the msgSender is once again unnecessary
+            await NFT.approve(address3,2);
         }catch(error){
             console.log(error);
         }
 
         let approved;
         try{
+
+            // getter function to return the address that is approved to spend NFT tokenId
             approved = await NFT.getApproved(2);
         }catch(error){
             console.log(error);
         }
 
-        assert(approved==address3);
+        // asserting the returned approved address to spend tokenId 2 is in fact address3
+        assert.equal(approved,address3,"address3 has not be returned as approved for tokenId 2");
     })
 
+    // testing the approve() function reverts when not the owner of the NFT tries to approve a spender
     it("should fail when not the owner of the NFT tries to approve it",async()=>{
         try{
+
+            // callying the approve() function to give address 5 approval to spend tokenId 4,
+            // the msgSender = address7, who is not the owner of the NFT nor is he approved for all of address1 NFts
             await NFT.approve(address5,4,{from: address7});
         }catch(error){
-            assert(error.message);
+
+            // transaction should fail, triggering the ERC721InvalidApprover custom error
+            // checking the transaction failed with Custom error reason, then returning
+            assert.include(error.message,"Custom error","transaction should have triggered the Custom error ERC721InvalidApprover, it didnt");
             return
         }
+
+        // asserting false, this code should not get reached unless the transaction did not revert, thus failing the unit test
         assert(false);
     })
 
+    // test for setApprovalForAll(), which gives an address control for all of another address NFTs,
+    // and isApprovedForAll() which returns whever an address is approved to operate all of another addresses NFTS or not
     it("will give approval for all nfts to address4, then check isApprovedForAll",async()=>{
         try{
-            await NFT.setApprovalForAll(address4,true,{from:address1});
+
+            // giving address4 approval to operate all of address1 NFTs, msgSender specification unnecessary
+            // argument 1 : address who gets approved for all
+            // argument 2 : bool value whever it is approved to or not
+            await NFT.setApprovalForAll(address4,true);
         }catch(error){
             console.log(error)
         }
@@ -370,39 +394,82 @@ contract("ERC721Enumerable",async()=>{
         let response;
 
         try{
+
+            // using the getter function which returns whever an address "operator" is approved to opperate all of 
+            // another addresses NFTs, should return true
             response = await NFT.isApprovedForAll(address1,address4);
         }catch(error){
             console.log(error)
         }
 
-        assert(response == true);
+        // asserting isApprovedForAll() return true, representing that address4 is in fact approved to opperate all of address1 NFTs
+        assert.equal(response,true,"isApprovedForAll() did not return true");
     })
 
-    it("will use the transferFrom function to spend address3 allowance to transfer it to address3",async()=>{
+
+    // testing the transferFrom with an approved address3 for NFT tokenId 2, then checking it actually got transfered
+    it("will use the transferFrom function to spend address3 allowance to transfer NFT tokenId 2 to address3",async()=>{
         try{
+
+            // transfering NFT tokenId 2 from address1 to address3, msgSender specified as address3, who has been approved for NFT tokenId 2 by address1
+            // argument 1 : from address
+            // argument 2 : to address
+            // argument 3 : NFT tokenId
+            // argument 4 : Object to specify which address to send the transaction from
             await NFT.transferFrom(address1,address3,2,{from:address3});
         }catch(error){
             console.log(error);
         }
 
-        let balance = await NFT.balanceOf(address3);
-        let owner = await NFT.ownerOf(2);
-        assert(balance == 1 &&owner == address3);
+        let balance 
+        let owner
+
+
+        // using the balanceOf() getter function for address3, which should after the transferFrom() return 1,
+        // and ownerOf() getter function for NFT tokenId 2, which should now return address3 as its new owner
+        try{
+            balance = await NFT.balanceOf(address3);
+            owner = await NFT.ownerOf(2);
+        }catch(error){
+            console.log(error)
+        }
+
+        // asserting both functions ownerOf() and balanceOf() returned the expected values after the transferFrom(),
+        // which are balanceOf(address3) = 1, ownerOf(2) = address3
+        assert.equal(balance,1,"balanceOf(address3) did not return 1");
+        assert.equal(owner,address3,"ownerOf(2) did not return address3");
     })
 
+
+    // checking that after transfering an NFT, its approval is deleted,
+    // which is equal to setting the approved address to address(0)
     it("will check that tokenId 2 no longer has an approved spender",async()=>{
         let approved;
+
+        // using the getterfunction getApproved() to get the current approved address for NFT tokenId 2,
+        // which should return address(0)
         try{
             approved = await NFT.getApproved(2);
         }catch(error){
             console.log(error);
         }
 
-        assert(approved.includes("0x00000000000000000000"));
+        // asserting the getApproved(2) actually returned the zero address
+        assert.include(approved,"0x0000000000000000000000000000000000000000","getApproved(2) did not return the zero address");
     })
 
+
+    // will check that also an address approved to operate all of another addresses NFTs can successfully use transferFrom()
     it("will use address4 approvalforall to transfer tokenId 6 to address7, then verify address7 is the new Owner",async()=>{
+        
         try{
+
+            // using transferFrom() to transfer NFT tokenId 6 from address1 to address7, 
+            // specifying address4 is the msgSender, which has previously been approved for all NFTs by address 1
+            // argument 1 : from address
+            // argument 2 : to address
+            // argument 3 : NFT tokenId
+            // argument 4 : Object, specifying the address which initiates the transaction
             await NFT.transferFrom(address1,address7,6,{from:address4});
         }catch(error){
             console.log(error);
@@ -410,6 +477,8 @@ contract("ERC721Enumerable",async()=>{
         let balance;
         let owner;
 
+        // using the balanceOf() getter function for address7, which should after the transferFrom() return 1,
+        // and ownerOf() getter function for NFT tokenId 6, which should now return address7 as its new owner
         try{
             balance = await NFT.balanceOf(address7);
             owner = await NFT.ownerOf(6);
@@ -417,70 +486,88 @@ contract("ERC721Enumerable",async()=>{
             console.log(error);
         }
 
-        assert(balance== 1 && owner == address7);
+        // asserting both functions ownerOf() and balanceOf() returned the expected values after the transferFrom(),
+        // which are balanceOf(address7) = 1, ownerOf(6) = address7
+        assert.equal(balance,1,"balanceOf(address7) did not return 1");
+        assert.equal(owner,address7,"ownerOf(6) did not return address7");
     })
 
+
+    // testing an address can no longer use transferFrom once its approvalForAll is removed, nor is it approved for a specific tokenId
     it("will clear address4 approvalForAll, then verify it is no longer allowed to spend address1's NFTs",async()=>{
         try{
-            await NFT.setApprovalForAll(address4,false,{from:address1});
+
+            // clearing the approval for all for address4 to no longer be able to operate all of address1 NFTs,
+            // by giving false value as the bool argument of the setApprovalForAll() function
+            // specifying address1 as the msgSender is unnecessary
+            // argument 1 : address to set approval for all for
+            // argument 2 : bool value whever the address is approved for all or not
+            await NFT.setApprovalForAll(address4,false);
         }catch(error){
             console.log(error);
         }
 
+        // using the getter function isApprovedForAll(), to return whever address4 is still approved for all of address1 NFTs
         let approved = await NFT.isApprovedForAll(address1,address4);
-        assert(approved == false);
+
+        // asserting isApprovedForAll() returned false for address4 to be approved for all of address1 NFTs
+        assert.equal(approved,false,"isApprovedForAll(address1,address4) did not return false");
     })
 
+
+    // testing only the latest approved address for an NFT tokenId can actually transfer it,
+    // as the latest approve for the same tokenId will overwrite previous ones
     it("will give approval to spend NFT nr.8 to several addresses, then check that only the latest approval is valid",async()=>{
         try{
-            await NFT.approve(address2,8,{from:address1});
+
+            // approving address2 for NFT tokenId 8, which is currently held by address1, specifying msgSender address is unnecessary
+            await NFT.approve(address2,8);
         }catch(error){
             console.log(error);
         }
 
         try{
-            await NFT.approve(address3,8,{from:address1});
+
+            // giving approval for the same NFT tokenId 8, still held by address1, to another address, which will overwrite the previous approval
+            await NFT.approve(address3,8);
         }catch(error){
             console.log(error);
         }
 
         let approved;
 
+        // using getterfunction getApproved() to check which address is currently approved for NFT tokenId 8
         try{
             approved = await NFT.getApproved(8);
-            assert(approved == address3);
         }catch(error){
             console.log(error);
         }
+
+        // asserting the getApproved() function actually returned address3
+        assert.equal(approved,address3,"getApproved(8) did not return address3");
     })
 
+
+    // testing an address who is neither approved nor approvedForAll cannot transfer an NFT from its owner
     it("should fail when a not approved address tries to trasnfer an nft",async()=>{
         
         try{
+
+            // address9, which is not approved for NFT tokenId 9, nor is it approved for all of address1 NFTs,
+            // trying to transfer NFT tokenId 9 from address1 to address9, which should fail and trigger the custom error ERC721InsufficientApproval
+            // argument 1 : address from
+            // argument 2 : address to
+            // argument 3 : NFT tokenId
+            // argument 4 : Object to specify the msgSender
             await NFT.transferFrom(address1,address7,9,{from:address9});
-        }catch(e){
-            assert(e.message.includes("Custom error"));
+        }catch(error){
+
+            // asserting the transaction reverted and triggered the Custom error, then returning
+            assert.include(error.message,"Custom error","transaction call did not trigger Custom error");
             return;
         }
 
-
+        // asserting false, this code should not get reached unless the transaction did not revert, thus failing the unit test
         assert(false)
     })
-
-// it("will use transferFrom to transfer NFT 8 to address3, ",async()=>{
-//     try{
-//         await NFT.transferFrom(address1,address3,8,{from:address3});
-//     }catch(error){
-//         console.log(error)
-//     };
-
-//     let newOwner = await NFT.ownerOf(8);
-
-//     assert(newOwner == address3);
-
-//     let approved = await NFT.getApproved(8);
-//     console.log(approved)
-    
-// })
-
 })
