@@ -139,8 +139,9 @@ contract stakingContract is Context,Ownable,ERC20,IERC721Receiver{
 
     // REQUIRES a stakedAmount > 0 and that the receiver of the reward is also the _msgSender() or the Owner of the Stakingcontract
     function claim(address receiver) public {
+        require(_msgSender()==receiver || _msgSender() == _owner,"only staker of NFT can claim his rewards");
         require(_stakedAmount[receiver] > 0,"Claimer address has no NFT staked");
-        require(_msgSender()==receiver || _msgSender() == _owner,"only owner of NFT can claim his rewards");
+        
 
         uint256 timeStaked = block.timestamp - _stakedFromTimeStamp[receiver];
         uint256 reward = timeStaked * _rewardRate * _stakedAmount[receiver];
