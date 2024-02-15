@@ -1,4 +1,4 @@
-const {express} = require("express");
+const express = require("express");
 
 const http = require("http");
 
@@ -18,6 +18,6 @@ app.get("/",(req,res)=>{
 
 const server = http.createServer(app);
 
-server.listen(Port,()=>{
-    console.log(`Listening on Port ${Port}`);
+server.listen(myPort,()=>{
+    console.log(`Listening on Port ${myPort}`);
 })
