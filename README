@@ -65,3 +65,7 @@ Stakingcontract: After succesfully deploying the NFT contract, copy its contract
 
 Interacting with your contracts:
 Open the "index.js" file in the "server" folder and adjust the port in line 7 to whatever port you prefer. Head over to the "main.js" in the "client" folder and adjust (if necessary) the Ethereum Network in line 26 and insert your provider URL in line 27. Then run "npm run start" in your terminal ('ctrl+c' to stop the server).
+
+
+Adding the NFT and reward token to metamask:
+If you cant see the NFTs or tokens displayed in your metamask, go to "import NFTs" and insert the NFT contract address in the opening window. Repeat that process for "import tokens" with the contract address of the staking contract
