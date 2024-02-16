@@ -53,18 +53,18 @@ Never share your secret phrase with anyone, as you risk loosing your funds. It i
 
 Running the unit tests:
 
-After cloning the project to your machine by running "git clone [GITHUB-PROJECT-URL]" in your terminal,run "npm install" in your terminal. After that, quick start ganache (or run "truffle develop" in the terminal). Then open the ./test folder and adjust line 13-22 in both files "test\testing_ERC721Enumerable.js" & "test\testing_StakingContract.js" to the by ganache provided addresses. Next, open the ganache settings => server and the "truffle-config.js" file and assure that the port in line 75 is the same as the one ganache is listening to. After that, run "truffle test" in your terminal to run the unit tests (35 in total).
+After cloning the project to your machine by running "git clone [GITHUB-PROJECT-URL]" in your terminal,run "npm install" in your terminal. After that, quick start ganache (or run "truffle develop" in the terminal). Then open the ./test folder and adjust the addresses in line 13-22 in both files "test\testing_ERC721Enumerable.js" & "test\testing_StakingContract.js" to the by ganache provided addresses. Next, copy the port in Ganache settings => server, open the "truffle-config.js" file and paste that  port in line 75. After that, run "truffle test test\testing_ERC721Enumerable.js" in your terminal to run the unit tests for the NFT. Copy the address ouput in your terminal, open the "migrations\5_migrate_Stakingcontract.js" and paste that address into line 12. Now you can run "truffle test" or "truffle test test\testing_StakingContract.js". (35 uinttests in total).
 
 
 Deploying smart contracts to Ethereum testnet goerli:
 
 NFT contract: To deploy to a public network, open the .secret file and replace the given example secret phrase with the secret phrase of your deployment wallet (Reminder: this wallet will become the owner of both contracts, if you are using a burner wallet make sure to transfer the ownership after deployment if necessary). After that, open the file "4_migrate_ERC721Enumerable.js" in the "./migrations" folder (you can ignore file 3). Adjust line 18 & 22 to your desired NFT collection name and symbol. Now, run the following command in your terminal: "truffle migrate -f 4 --to 4 --network goerli" and wait for the confirmations of your deployment.
 
-Stakingcontract: After succesfully deploying the NFT contract, copy its contractaddress (truffle wil log that address in the terminal after the succesfull deployment, or u can check goerli etherscan) and open the file "5_migrate_Stakingcontract.js" in the "migrations" folder. Repalce the exmaple contract address in line 12 with the NFT contract address, then adjust the constructor arguments in line 37, 41 & 45 as u like. Now, run the following command in your terminal :"truffle migrate -f 5 --to 5 --network goerli" and wait for the confirmations of your deployment.
+Stakingcontract: After succesfully deploying the NFT contract, copy its contractaddress (truffle wil log that address in the terminal after the succesfull deployment, or u can check goerli etherscan) and open the file "5_migrate_Stakingcontract.js" in the "migrations" folder. Replace the exmaple contract address in line 12 with the NFT contract address, then adjust the constructor arguments in line 37, 41 & 45 as u like. Now, run the following command in your terminal :"truffle migrate -f 5 --to 5 --network goerli" and wait for the confirmations of your deployment.
 
 
 Interacting with your contracts:
-Open the "index.js" file in the "server" folder and adjust the port in line 7 to whatever port you prefer. Head over to the "main.js" in the "client" folder and adjust (if necessary) the Ethereum Network in line 26 and insert your provider URL in line 27. Then run "npm run start" in your terminal ('ctrl+c' to stop the server).
+Open the "index.js" file in the "server" folder and adjust the port in line 8 to whatever port you prefer. Head over to the "main.js" in the "client" folder and adjust (if necessary) the Ethereum Network in line 26 and insert your INFURA (or another provider) provider URL in line 27. Then run "npm run start" in your terminal ('ctrl+c' to stop the server).
 
 
 Adding the NFT and reward token to metamask:

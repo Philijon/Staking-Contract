@@ -37,6 +37,7 @@ contract("ERC721Enumerable",async()=>{
     it("should return the addresses of the deployed ERC721Enumerable contract",async()=>{
 
         let nftaddress = await NFT.address;
+        console.log(`_____________________________________________________________________________\n THE NFT CONTRACT ADDRESS IS: ${nftaddress}`)
 
         assert.lengthOf(nftaddress, 42, "Contract not succesfully deployed");
         

@@ -9,7 +9,7 @@ const stakingContract = artifacts.require("stakingContract");
 
 // _______________________________________________________________________________________________________________
 // ADJUST THIS:
-const nftAddress = "ADDRESS_OF_DEPLOYED_ERC721ENUMERABLE";
+const nftAddress = "0x9991Df34a1Ce93E6986eD653eC7Ed2ED114dfd12";
 // _______________________________________________________________________________________________________________
 
 
