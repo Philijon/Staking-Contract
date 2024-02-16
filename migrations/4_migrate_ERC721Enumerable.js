@@ -9,7 +9,18 @@ const ERC721Enumerable = artifacts.require("ERC721Enumerable");
 module.exports = function(_deployer){
     _deployer.deploy(
         ERC721Enumerable,
+
+
+        // ___________________________________________________________
+        // Adjust these parameters to your desired NFT name and symbol
+
+        // NAME:
         "MyNFT",
+
+
+        // Symbol:
         "MNFT"
+
+        // ___________________________________________________________
     )
 }

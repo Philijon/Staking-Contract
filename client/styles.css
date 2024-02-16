@@ -1,0 +1,110 @@
+
+
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Header xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 2rem;
+    border: 2px solid black;
+}
+
+header h1 a{ 
+    color: black;
+    text-decoration: none;
+}
+
+header h1 a:link{
+    text-decoration: none;
+}
+
+header h1 a:visited{
+    text-decoration: none;
+}
+
+header h1 a:hover{
+    text-decoration: underline;
+}
+
+header h1 a:active{
+    text-decoration: underline;
+}
+
+header button{
+    height: 50px;
+}
+
+
+
+
+
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Grid System xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+.container{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: .8rem;
+}
+
+.row::after{
+    content: "";
+    clear: both;
+    display: block;
+}
+
+[class*='col-'] {
+    float: left;
+    min-height: 1px;
+}
+
+.col-1{
+    width: 16.666%;
+}
+
+.col-2{
+    width: 33.333%;
+}
+
+.col-3{
+    width: 50%;
+}
+
+.col-6{
+    width: 100%;
+}
+
+@media(max-width: 1024px){
+    .col-1{
+        width: 33.333%;
+    }
+}
+
+@media(max-width: 768px){
+    .col-1{
+        width: 50%;
+    }
+
+    .col-2{
+        width: 100%;
+    }
+
+    .col-3{
+        width: 100%;
+    }
+}
+
+@media(max-width: 480px){
+    .col-1{
+        width: 100%;
+    }
+
+    .col-2{
+        width: 100%;
+    }
+
+    .col-3{
+        width: 100%;
+    }
+}

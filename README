@@ -1,0 +1,67 @@
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+    SPDX License Identifier : MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+    About:
+
+The aim of this project is to create your own staking smart contract, which can stake NFTs and pay ERC20 token rewards. This project is based on the Openzeppelin ERC721Enumerable and ERC20 contract standard, and provides, besides the staking smart contract,migration files to migrate the ERC721Enumerable and the staking contract,basic unit testing files for the staking contract and NFT contract, a frontend to interact with the staking smart contract and NFT contract, and an express localhost server to serve that frontend.
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+    Dependencies:
+
+Node v18.15.0 or higher,
+
+Truffle v5.11.0 or higher,
+
+An infura Account (or another Provider Account), see https://www.infura.io/
+
+A Metamask wallet (preferably a burner wallet)
+
+Ganache v7.9.1 or higher (optional)
+
+git v2.42.0 or higher
+
+ethers.js v6.8.1
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+    Getting started:
+
+
+IMPORTANT REMINDER:
+Never share your secret phrase with anyone, as you risk loosing your funds. It is recommended to use a new, almost empty wallet for deployment.
+
+
+Running the unit tests:
+
+After cloning the project to your machine by running "git clone [GITHUB-PROJECT-URL]" in your terminal,run "npm install" in your terminal. After that, quick start ganache (or run "truffle develop" in the terminal). Then open the ./test folder and adjust line 13-22 in both files "test\testing_ERC721Enumerable.js" & "test\testing_StakingContract.js" to the by ganache provided addresses. Next, open the ganache settings => server and the "truffle-config.js" file and assure that the port in line 75 is the same as the one ganache is listening to. After that, run "truffle test" in your terminal to run the unit tests (35 in total).
+
+
+Deploying smart contracts to Ethereum testnet goerli:
+
+NFT contract: To deploy to a public network, open the .secret file and replace the given example secret phrase with the secret phrase of your deployment wallet (Reminder: this wallet will become the owner of both contracts, if you are using a burner wallet make sure to transfer the ownership after deployment if necessary). After that, open the file "4_migrate_ERC721Enumerable.js" in the "./migrations" folder (you can ignore file 3). Adjust line 18 & 22 to your desired NFT collection name and symbol. Now, run the following command in your terminal: "truffle migrate -f 4 --to 4 --network goerli" and wait for the confirmations of your deployment.
+
+Stakingcontract: After succesfully deploying the NFT contract, copy its contractaddress (truffle wil log that address in the terminal after the succesfull deployment, or u can check goerli etherscan) and open the file "5_migrate_Stakingcontract.js" in the "migrations" folder. Repalce the exmaple contract address in line 12 with the NFT contract address, then adjust the constructor arguments in line 37, 41 & 45 as u like. Now, run the following command in your terminal :"truffle migrate -f 5 --to 5 --network goerli" and wait for the confirmations of your deployment.
+
+
+Interacting with your contracts:
+Open the "index.js" file in the "server" folder and adjust the port in line 7 to whatever port you prefer. Head over to the "main.js" in the "client" folder and adjust (if necessary) the Ethereum Network in line 26 and insert your provider URL in line 27. Then run "npm run start" in your terminal ('ctrl+c' to stop the server).
