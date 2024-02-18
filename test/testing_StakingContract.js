@@ -301,7 +301,7 @@ contract("Stakercontract",async()=>{
     it("should unstake the 2nd NFT, thus returning it to address1",async()=>{
 
 
-        // wasting time to increase the claimable reward for the staker
+        // wasting time to increase the claimable reward for the staker (see line 340-344)
         await new Promise(resolve => setTimeout(resolve, 2000));
         await web3.eth.sendTransaction({to:address2, from: address1, value: web3.utils.toWei(`3`,`ether`)});
         await web3.eth.sendTransaction({to:address1, from: address2, value: web3.utils.toWei(`3`,`ether`)});
@@ -339,8 +339,9 @@ contract("Stakercontract",async()=>{
 
         // wasting time, stakedsince calculates the amount of time using block.timestamp - _stakedFromTimestamp[address],
         // which is also set to a block.timestamp,
-        // therefor we need to force ganache to produce new blocks (automining enabled by default), as view functions (getter functions = view functions)
-        // wont lead to a new block, thus the difference will be 0, which will also lead to an unclaimedReward = 0
+        // therefor we need to force ganache to produce new blocks (automining enabled by default), as view functions (all of these are view function)
+        // wont lead to a new block,the latest block included the transaction that has set a new _stakedFromTimestamp[address1],
+        // thus the difference will be 0, which will also lead to an unclaimedReward = 0
         await new Promise(resolve => setTimeout(resolve, 2000));
         await web3.eth.sendTransaction({to:address2, from: address1, value: web3.utils.toWei(`3`,`ether`)});
         await web3.eth.sendTransaction({to:address1, from: address2, value: web3.utils.toWei(`3`,`ether`)});

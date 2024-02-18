@@ -7,10 +7,440 @@
 </head>
 <body>
     <header>
-        <h1> <a href="index.html">ERC20 Token</a> </h1>
+        <h1> <a href="index.html">Staking Contract Project</a> </h1>
         <button type="button" id="connect_metamask"> Connect Metamask</button>
         <span></span>
     </header>
+
+
+    <section id="address_input_section">
+        <div class="container">
+            <div class="row">   
+                <form id="Contractaddressform" action="">
+                    <div class="col-6">
+                        <label for="address_input">Insert your ERC721 contractaddress here:</label>
+                        <input id="address_input" type="text" required><br>
+                    </div>
+                    <div class="col-6">
+                        <label for="address_input">Insert your staking contract address here:</label>
+                        <input id="address_input" type="text" required><br>
+                    </div>
+                    <button type="submit">Submit addresses</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+<!-- choosing section -->
+
+    <section id="choosing_section">
+        <div class="container">
+            <div class="row">
+                <button>Interact with NFT contract</button>
+                <button>Interact with staking contract</button>
+            </div>
+        </div>
+    </section>
+
+<!-- NFT contract interaction -->
+    
+    <section id="interact_with_nft_contract">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Request Name and Symbol</h3>
+                        <span></span><br>
+                        <span></span><br>
+                        <button type="submit"> Request</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Query owner of an NFT</h3>
+                        <label for="getOwnerInput">tokenId</label>
+                        <input type="number" id="getOwnerInput" required><br>
+                        <span></span><br>
+                        <button type="submit">Query</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Get balance of an address</h3>
+                        <label for="getBalacanceInput">Address</label>
+                        <input type="text" id="getBalacanceInput" required><br>
+                        <span></span><br>
+                        <button type="submit">Query Balance</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Query tokenURI</h3>
+                        <label for="tokenURIInput">tokenId</label>
+                        <input type="number" id="tokenURIInput" required><br>
+                        <span></span><br>
+                        <button type="submit">Query</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Set a new baseURI (restricted access only for owner)</h3>
+                        <label for="newBaseURIInput">new baseURI</label>
+                        <input type="text" id="newBaseURIInput" required><br>
+                        <span></span><br>
+                        <button type="submit">Set new baseURI</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Approve an address to spend your NFT</h3>
+                        <label for="approveSpenderInput">Spender</label>
+                        <input type="text" id="approveSpenderInput" required>
+                        <label for="approveTokenIdInput">tokenId</label>
+                        <input type="number" id="approveTokenIdInput" required><br>
+                        <span></span><br>
+                        <button type="submit">Give Approval</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Get the approved spender for an NFT</h3>
+                        <label for="getApprovedTokenIdInput">tokenId</label>
+                        <input type="number" id="getApprovedTokenIdInput" required><br>
+                        <span></span><br>
+                        <button type="submit">Query</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Give an address approval to operate all your NFTs</h3>
+                        
+                        <label for="setApprovalForAllSpenderInput">Spender address</label>
+                        <input type="text" id="setApprovalForAllSpenderInput" requried>
+                        <h5>(any Input other then "YES" is considered a "NO")</h5>
+                        <label for="setApprovalForAllApprovedInput">approve the address ? (YES / NO)</label>
+                        <input type="text" id="setApprovalForAllApprovedInput" placeholder="(YES / NO)" requried><br>
+                        <span></span><br>
+                        <button type="submit">Update approval</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>See if an address is approved to operate all of another addresses NFTs</h3>
+                        <label for="isApprovedForAllOwnerInput">owner address</label>
+                        <input type="text" id="isApprovedForAllOwnerInput" required>
+                        <label for="isApprovedForAllOperatorInput">operator address</label>
+                        <input type="text" id="isApprovedForAllOperatorInput" required>
+                        <span></span><br>
+                        <button type="submit">Query</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>transfer an NFT from one address to another (CAUTION: UNSAFE)</h3>
+                        <label for="transferFromFromInput">From address</label>
+                        <input type="text" id="transferFromFromInput">
+                        <label for="transferFromToInput">To address</label>
+                        <input type="text" id="transferFromToInput">
+                        <label for="transferFromTokenIdInput">TokenId</label>
+                        <input type="number" id="transferFromTokenIdInput" min="0" required><br>
+                        <span></span><br>
+                        <button type="submit">transfer</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>safely transfer an NFT from one address to another</h3>
+                        <label for="safeTransferFromFromInput">From address</label>
+                        <input type="text" id="safeTransferFromFromInput">
+                        <label for="safeTransferFromToInput">To address</label>
+                        <input type="text" id="safeTransferFromToInput">
+                        <label for="safeTransferFromTkenIdInput">TokenId</label>
+                        <input type="number" id="safeTransferFromTokenIdInput" min="0" required>
+                        <label for="safeTransferFromDataInput">Data</label>
+                        <input type="text" id="safeTransferFromDataInput" placeholder="optional"><br>
+                        <span></span><br>
+                        <button type="submit">safely transfer</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Mint a new NFT (restricted access only for owner)</h3>
+                        <label for="mintToInput">Receiving address</label>
+                        <input type="text" id="mintToInput">
+                        <label for="mintTokenIdInput">Token id to be minted</label>
+                        <input type="number" id="mintTokenIdInput"><br>
+                        <span></span><br>
+                        <button type="submit">mint token</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Burn an NFT</h3>
+                        <label for="burnTokenIdInput">Token id to be burned</label>
+                        <input type="number" id="burnTokenIdInput" min="0"><br>
+                        <span></span><br>
+                        <button type="submit">Burn token</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Get owner of the NFT contract</h3>                      
+                        <br><span></span><br>
+                        <button type="submit">Query</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Transfer Ownership to a new Owner (irreversible)</h3>
+                        <label for="newOwner">New Owner</label>
+                        <input type="text" id="newOwner"><br>
+                        <span></span><br>
+                        <button type="submit">Transfer ownership</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Destroy ownership (irreversible)</h3>
+                        <label for="agreement">Type "YES" to confirm</label>
+                        <input type="text" id="agreement" placeholder="Type 'YES' to confirm" required><br>
+                        <span></span><br>
+                        <button type="submit">Destroy ownership</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Check for supported interfaces</h3>
+                        <label for="interfaceIdInput">Interface ID</label>
+                        <input type="text" id="interfaceIdInput" placeholder="0x1234abcd"><br>
+                        <span></span><br>
+                        <button type="submit">Check !</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+<!-- Staking contract interaction -->
+
+    <section id="interact_with_staking_contract">
+        <div class="container">
+            <div class="row">
+                <h2>Manage the staking contract</h2>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Get the staked amount of NFTS for an address</h3>
+                        <label for="stakedAmountAddressInput">Address</label>
+                        <input type="text" id="stakedAmountAddressInput"><br>
+                        <span></span><br>
+                        <button type="submit"> Query</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Get the owner of a staked NFT</h3>
+                        <label for="tokenStakedByTokenIdInput">tokenId</label>
+                        <input type="number" id="tokenStakedByTokenIdInput" min="1"><br>
+                        <span></span><br>
+                        <button type="submit"> Request</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Get the time an address has staked its NFTs (seconds)</h3>
+                        <label for="stakedTimeAddressInput">Address</label>
+                        <input type="text" id="stakedTimeAddressInput"><br>
+                        <span></span><br>
+                        <button type="submit"> Request</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Get the unclaimed rewards of a staker</h3>
+                        <label for="unclaimedRewardsAddressInput">Address</label>
+                        <input type="text" id="unclaimedRewardsAddressInput"><br>
+                        <span></span><br>
+                        <button type="submit"> Request</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Get the current reward rate</h3>
+                        <br><span></span><br>
+                        <button type="submit"> Request</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Update the reward rate (restricted access only for owner)</h3>
+                        <label for="setRewardRateInput">rewardrate</label>
+                        <input type="text" id="setRewardRateInput"><br>
+                        <span></span><br>
+                        <button type="submit"> Update RewardRate</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>stake one of your NFTs (you must first approve the staker contract for the tokenId)</h3>
+                        <label for="stakeTokenIdInput">tokenId</label>
+                        <input type="text" id="stakeTokenIdInput"><br>
+                        <span></span><br>
+                        <button type="submit"> stake</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>unstake one of your staked NFTs</h3>
+                        <label for="unstakeTokenIdInput">tokenId</label>
+                        <input type="text" id="unstakeTokenIdInput"><br>
+                        <span></span><br>
+                        <button type="submit"> unstake</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>claim your outstanding rewards</h3>
+                        <br><span></span><br>
+                        <button type="submit">claim</button>
+                    </form>
+                </div>
+                <br>
+                <br>
+                <h2>Manage the reward token</h2>
+                <br>
+                <br>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Request Name, Symbol and Decimals</h3>
+                        <span></span><br>
+                        <span></span><br>
+                        <span></span><br>
+                        <button type="submit"> Request</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Query totalsupply</h3>
+                        <span></span><br>
+                        <button type="submit">Query</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Get balance of an address</h3>
+                        <label for="getBalacanceInput">Address</label>
+                        <input type="text" id="getBalacanceInput"><br>
+                        <span></span><br>
+                        <button type="submit">Query Balance</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Transfer your tokens to an address</h3>
+                        <label for="transferAddressInput">Receiving address</label>
+                        <input type="text" id="transferAddressInput">
+                        <label for="transferAmountInput">Amount</label>
+                        <input type="number" id="transferAmountInput"><br>
+                        <span></span><br>
+                        <button type="submit">Transfer</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Get allowance of a spender</h3>
+                        <label for="allowanceOwnerInput">Owner</label>
+                        <input type="text" id="allowanceOwnerInput">
+                        <label for="allowanceSpenderInput">Spender</label>
+                        <input type="text" id="allowanceSpenderInput"><br>
+                        <span></span><br>
+                        <button type="submit">Show allowance</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Approve an address to spend your Tokens</h3>
+                        <label for="approveSpenderInput">Spender</label>
+                        <input type="text" id="approveSpenderInput">
+                        <label for="approveAmountInput">Amount</label>
+                        <input type="number" id="approveAmountInput"><br>
+                        <span></span><br>
+                        <button type="submit">Give Approval</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Transfer Tokens from one address to another by using your allowance</h3>
+                        <label for="transfromOwnerInput">Owner</label>
+                        <input type="text" id="transfromOwnerInput">
+                        <label for="transFromSpenderInput">Receiver</label>
+                        <input type="text" id="transFromSpenderInput">
+                        <label for="transFromAmountInput">Amount</label>
+                        <input type="number" id="transFromAmountInput"><br>
+                        <span></span><br>
+                        <button type="submit">Transfer</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Mint new Tokens (only Owner)</h3>
+                        <label for="mintReceiverInput">Receiver</label>
+                        <input type="text" id="mintReceiverInput">
+                        <label for="mintAmountInput">Amount</label>
+                        <input type="number" id="mintAmountInput"><br>
+                        <span></span><br>
+                        <button type="submit">Mint</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Burn tokens</h3>
+                        <label for="burnAmountInput">Amount</label>
+                        <input type="number" id="burnAmountInput">
+                        <span></span><br>
+                        <button type="submit">Burn</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Get owner</h3>
+                        <br>
+                        <span></span><br>
+                        <button type="submit">Query</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Transfer Ownership to a new Owner (irreversible)</h3>
+                        <label for="newOwner">New Owner</label>
+                        <input type="text" id="newOwner">
+                        <span></span><br>
+                        <button type="submit">Transfer ownership</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Destroy ownership (irreversible)</h3>
+                        <label for="agreement">Type "YES" to confirm</label>
+                        <input type="text" id="agreement" placeholder="Type 'YES' to confirm">
+                        <span></span><br>
+                        <button type="submit">Destroy ownership</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="" method="">
+                        <h3>Check for supported interfaces</h3>
+                        <label for="interfaceIdInput">Interface ID</label>
+                        <input type="text" id="interfaceIdInput" placeholder="0x1234abcd"><br>
+                        <span></span><br>
+                        <button type="submit">Check !</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        
+    </section>
 
     <script type="module" src="./main.js" defer></script>
 </body>

@@ -97,6 +97,8 @@ contract stakingContract is Context,Ownable,ERC20,IERC721Receiver{
     // REQUIRES this contract to be approved for the NFT tokenId by the owner 
     function stake(uint256 tokenId) public {
 
+        // @todo remoteApprove(spender,tokenId,authenticator) implementieren im ERC721, dann von hier aus callen mit (address(this),tokenId,tx.origin)
+
         address owner = nftContract.ownerOf(tokenId);
 
         require(owner == _msgSender(),"Only owner of NFT can Stake");

@@ -35,7 +35,61 @@ header button{
     height: 50px;
 }
 
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx input address section xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+#address_input_section{
+    margin-top: 2rem;
+    border-bottom: 2px solid black;
+}
 
+
+#address_input_section  form{
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: bold;
+}
+
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx choosing section xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+#choosing_section{
+    border-bottom: 2px solid black;
+    display: none;
+    
+}
+
+#choosing_section .row{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+}
+
+#choosing_section .row button{
+    min-height: 50px;
+    font-weight: bold;
+ }
+
+
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx interact with NFT contract section xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+#interact_with_nft_contract{
+    display: none; 
+ }
+ 
+ #interact_with_nft_contract .col-6{
+     padding-bottom: 1rem;
+     border-bottom: 2px solid black;
+ }
+
+
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx interact with staking contract section xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+#interact_with_staking_contract{
+    display: none; 
+ }
+ 
+ #interact_with_staking_contract .col-6{
+     padding-bottom: 1rem;
+     border-bottom: 2px solid black;
+ }
 
 
 
