@@ -24,7 +24,7 @@ import {ethers} from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.8.1/ethers
 
 // _________________________ Adjust these two parameters __________________
 const Ethereum_network = "goerli";
-const RPC_HTTP_URL = "https://goerli.infura.io/v3/fa41e27497384dc4877bc930cd66ab0f";
+const RPC_HTTP_URL = "Place.Your.URL.here";
 // ________________________________________________________________________
 
 
